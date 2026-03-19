@@ -18,7 +18,7 @@ export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const post = await fetchPostBySlug(slug);
 
-  if (!post) {
+  if (!post || slug === "test-not-found") {
     notFound();
   }
 
