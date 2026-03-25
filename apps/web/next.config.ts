@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/hello-world',
-        destination: `${blogUrl}/hello-world`,
+        source: '/demo/boundary',
+        destination: `${blogUrl}/demo/boundary`,
       },
       {
-        source: '/hello-world/:path*',
-        destination: `${blogUrl}/hello-world/:path*`,
+        source: '/demo/boundary/:path*',
+        destination: `${blogUrl}/demo/boundary/:path*`,
       },
     ];
   },
