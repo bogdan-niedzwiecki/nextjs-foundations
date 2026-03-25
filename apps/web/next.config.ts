@@ -3,6 +3,15 @@ import type { NextConfig } from 'next';
 const blogUrl = process.env.BLOG_URL || 'http://localhost:3001';
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+    ],
+    formats: ['image/avif', 'image/webp'],
+  },
   async rewrites() {
     return [
       {
