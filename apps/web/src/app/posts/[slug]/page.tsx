@@ -1,43 +1,96 @@
-// Demonstrates notFound() routing to the nearest not-found.tsx
+import { Suspense } from "react";
 
-import { notFound } from "next/navigation";
-import Link from "next/link";
+// Mock data fetching functions (simulate API calls)
+async function fetchPost(slug: string) {
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  return {
+    id: "post-1",
+    slug,
+    title: "Understanding Parallel Data Fetching",
+    content: "This post demonstrates how to optimize data loading...",
+    authorId: "user-1",
+    createdAt: new Date("2024-01-15"),
+  };
+}
 
-// Simulated posts database
-const posts: Record<string, { title: string; content: string }> = {
-  "hello-world": {
-    title: "Hello World",
-    content: "This is the first post. Welcome to the blog!",
-  },
-  "nextjs-tips": {
-    title: "Next.js Tips",
-    content: "Here are some tips for building with Next.js...",
-  },
-};
+async function fetchAuthor(authorId: string) {
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  return {
+    id: authorId,
+    name: "Demo Author",
+    avatar: "/avatars/demo.jpg",
+  };
+}
 
-// In Next.js 16, params is a Promise that must be awaited
-export default async function PostPage(props: {
+async function fetchComments(postId: string) {
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  return [
+    { id: "c1", author: "Reader 1", text: "Great article!" },
+    { id: "c2", author: "Reader 2", text: "Very helpful, thanks!" },
+  ];
+}
+
+// ✅ OPTIMIZED: Parallel fetching with Promise.all
+async function PostContent({ slug }: { slug: string }) {
+  const start = Date.now();
+
+  // First fetch the post (needed for authorId and postId)
+  const post = await fetchPost(slug);
+
+  // Then fetch related data in parallel
+  const [author, comments] = await Promise.all([
+    fetchAuthor(post.authorId),
+    fetchComments(post.id),
+  ]);
+
+  const duration = Date.now() - start;
+  console.log(`[post] Loaded in ${duration}ms (parallel)`);
+  // Expected: ~400ms instead of ~600ms sequential
+
+  return (
+    <article className="space-y-6">
+      <header>
+        <h1 className="font-bold text-3xl">{post.title}</h1>
+        <div className="flex items-center gap-2 mt-2 text-gray-600">
+          <span>By {author.name}</span>
+          <span>•</span>
+          <time>{post.createdAt.toLocaleDateString()}</time>
+        </div>
+      </header>
+
+      <div className="prose">
+        <p>{post.content}</p>
+      </div>
+
+      <section>
+        <h2 className="mb-4 font-semibold text-xl">
+          Comments ({comments.length})
+        </h2>
+        <ul className="space-y-3">
+          {comments.map((comment) => (
+            <li key={comment.id} className="p-3 bg-gray-50 rounded">
+              <strong>{comment.author}</strong>
+              <p>{comment.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </article>
+  );
+}
+
+export default async function PostPage({
+  params,
+}: {
   params: Promise<{ slug: string }>;
 }) {
-  const params = await props.params;
-  const post = posts[params.slug];
-
-  // If post doesn't exist, trigger 404
-  // notFound() throws - don't wrap in try/catch or it won't work
-  if (!post) {
-    notFound();
-  }
+  const { slug } = await params;
 
   return (
     <main className="mx-auto max-w-2xl p-8">
-      <Link
-        href="/posts"
-        className="mb-4 inline-block text-blue-600 hover:underline"
-      >
-        ← Back to posts
-      </Link>
-      <h1 className="mb-4 font-bold text-3xl">{post.title}</h1>
-      <p className="text-gray-600">{post.content}</p>
+      <Suspense fallback={<div className="animate-pulse">Loading post...</div>}>
+        <PostContent slug={slug} />
+      </Suspense>
     </main>
   );
 }
