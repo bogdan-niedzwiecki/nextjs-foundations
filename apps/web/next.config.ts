@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const blogUrl = process.env.BLOG_URL || 'http://localhost:3001';
+const vercelDailyUrl = process.env.VERCEL_DAILY_URL || 'http://localhost:3002';
 
 const nextConfig: NextConfig = {
   images: {
@@ -29,6 +30,14 @@ const nextConfig: NextConfig = {
       {
         source: '/demo/boundary/:path*',
         destination: `${blogUrl}/demo/boundary/:path*`,
+      },
+      {
+        source: '/vercel-daily',
+        destination: `${vercelDailyUrl}/`,
+      },
+      {
+        source: '/vercel-daily/:path*',
+        destination: `${vercelDailyUrl}/:path*`,
       },
     ];
   },
