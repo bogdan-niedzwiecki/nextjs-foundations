@@ -1,3 +1,17 @@
 @import "tailwindcss";
 
 @import "@repo/ui/globals.css";
+
+@layer components {
+  .pill-control {
+    @apply inline-flex rounded-full border border-zinc-300/80 bg-white/65 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-700 transition-colors hover:bg-white;
+  }
+
+  .pill-control-secondary {
+    @apply border-zinc-900 bg-zinc-900 text-white hover:border-black hover:bg-black;
+  }
+
+  .pill-badge {
+    @apply inline-flex rounded-full border border-rose-300 bg-gradient-to-r from-rose-200 to-sky-200 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-800;
+  }
+}
