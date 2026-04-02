@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SubscribeButton } from "./subscribe-button";
 
@@ -25,18 +26,24 @@ export function HeroSection() {
             <div className="bg-zinc-900 px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-zinc-200">
               Featured Story
             </div>
-            <div className="aspect-[4/3] bg-[radial-gradient(circle_at_20%_15%,#fda4af_0%,#fda4af00_35%),radial-gradient(circle_at_80%_20%,#7dd3fc_0%,#7dd3fc00_40%),linear-gradient(160deg,#1f2937,#0f172a_50%,#111827)] p-6">
-              <div className="flex h-full flex-col justify-between rounded-xl border border-white/20 bg-black/30 p-5 text-white backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/70">
-                  Deploy Insights
+            <div className="relative aspect-[4/3]">
+              <Image
+                src="https://i8qy5y6gxkdgdcv9.public.blob.vercel-storage.com/news/helly-hansen-migrated-to-vercel-and-drove-80-black-friday-growth.png"
+                alt="Helly Hansen migrated to Vercel and drove 80% Black Friday growth"
+                fill
+                priority
+                sizes="(min-width: 1024px) 38vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/75">
+                  Featured Case Study
                 </p>
-                <h2 className="text-2xl font-extrabold leading-tight">
-                  Edge Caching Patterns That Cut TTFB by 42%
+                <h2 className="mt-2 text-xl font-extrabold leading-tight sm:text-2xl">
+                  Helly Hansen Migrated to Vercel and Drove 80% Black Friday
+                  Growth
                 </h2>
-                <p className="text-sm leading-relaxed text-zinc-200">
-                  A practical breakdown of cache hierarchy, invalidation
-                  strategy, and route segment tuning in Next.js.
-                </p>
               </div>
             </div>
           </div>

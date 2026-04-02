@@ -61,9 +61,10 @@ export function ArticleContent({ blocks }: { blocks: ContentBlock[] }) {
                   <Image
                     src={block.src}
                     alt={block.alt}
-                    width={1200}
-                    height={675}
+                    width={767}
+                    height={288}
                     unoptimized
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 767px"
                     className="h-auto w-full rounded-xl object-cover"
                     loading="lazy"
                   />

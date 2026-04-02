@@ -5,10 +5,10 @@ import { BreakingNewsBanner } from "../components/breaking-news-banner";
 import { HeroSection } from "../components/hero-section";
 
 export const metadata: Metadata = {
-  title: "Home | Vercel Daily",
+  title: "Vercel Daily | Home",
   description: "News and insights for modern web developers.",
   openGraph: {
-    title: "Home | Vercel Daily",
+    title: "Vercel Daily | Home",
     description: "Featured stories, breaking coverage, and developer insights.",
     url: "/",
   },

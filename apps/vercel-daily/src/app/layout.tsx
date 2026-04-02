@@ -12,7 +12,7 @@ export const metadata: Metadata = {
       : "http://localhost:3002",
   ),
   title: {
-    template: "%s | Vercel Daily",
+    template: "%s",
     default: "Vercel Daily",
   },
   description:
@@ -70,7 +70,7 @@ export default function RootLayout({
 
             <div className="relative">
               <p className="max-w-xl text-sm leading-relaxed text-zinc-700 sm:text-base">
-                (c) {year} Vercel Daily. All rights reserved.
+                (c) {year} Vercel Daily by Bogdan. All rights reserved.
               </p>
             </div>
           </footer>

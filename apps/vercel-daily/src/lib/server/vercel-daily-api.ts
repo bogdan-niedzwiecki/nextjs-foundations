@@ -11,13 +11,13 @@ type ApiEnvelope<TData> = {
 };
 
 export type BreakingNewsItem = {
-    id?: string;
-    headline?: string;
-    summary?: string;
-    articleId?: string;
-    category?: string;
-    publishedAt?: string;
-    urgent?: boolean;
+    id: string;
+    headline: string;
+    summary: string;
+    articleId: string;
+    category: string;
+    publishedAt: string;
+    urgent: boolean;
 };
 
 export type ContentBlock =
@@ -32,17 +32,17 @@ export type Article = {
     id: string;
     title: string;
     slug: string;
-    excerpt?: string;
-    content?: ContentBlock[];
-    image?: string;
-    category?: string;
-    publishedAt?: string;
-    featured?: boolean;
-    author?: {
-        name?: string;
-        avatar?: string;
+    excerpt: string;
+    content: ContentBlock[];
+    image: string;
+    category: string;
+    publishedAt: string;
+    featured: boolean;
+    author: {
+        name: string;
+        avatar: string;
     };
-    tags?: string[];
+    tags: string[];
 };
 
 type ArticlesQueryParams = {
@@ -110,4 +110,13 @@ export async function getArticleBySlug(slug: string) {
     );
 
     return payload?.data ?? null;
+}
+
+export async function getTrendingArticles() {
+    const payload = await apiGet<Article[]>(
+        "/articles/trending",
+        { revalidate: 120 },
+    );
+
+    return payload?.data ?? [];
 }
