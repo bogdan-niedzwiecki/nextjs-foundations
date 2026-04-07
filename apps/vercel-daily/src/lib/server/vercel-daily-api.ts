@@ -45,7 +45,16 @@ export type Article = {
     tags: string[];
 };
 
+export type ArticleCategory = {
+    slug: string;
+    name: string;
+    articleCount: number;
+};
+
 type ArticlesQueryParams = {
+    page?: number;
+    category?: string;
+    search?: string;
     featured?: boolean;
     limit?: number;
 };
@@ -100,7 +109,13 @@ export async function getArticles(params: ArticlesQueryParams = {}) {
         { revalidate: 120 },
     );
 
-    return payload?.data ?? [];
+    const articles = payload?.data ?? [];
+
+    return [...articles].sort(
+        (a, b) =>
+            new Date(b.publishedAt).getTime() -
+            new Date(a.publishedAt).getTime(),
+    );
 }
 
 export async function getArticleBySlug(slug: string) {
@@ -116,6 +131,15 @@ export async function getTrendingArticles() {
     const payload = await apiGet<Article[]>(
         "/articles/trending",
         { revalidate: 120 },
+    );
+
+    return payload?.data ?? [];
+}
+
+export async function getCategories(): Promise<ArticleCategory[]> {
+    const payload = await apiGet<ArticleCategory[]>(
+        "/categories",
+        { revalidate: 300 },
     );
 
     return payload?.data ?? [];
